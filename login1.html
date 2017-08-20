@@ -1,3 +1,12 @@
+#!usr/bin/python
+import webapp2
+from google.appengine.ext import ndb
+   
+   
+html = """ 
+
+
+
 <!DOCTYPE html>
 <html>
 <style>
@@ -70,10 +79,10 @@ span.psw {
 
   <div class="container">
     <label><b>Username</b></label>
-    <input type="text" placeholder="Enter Username" name="uname" required>
+    <input type="text" placeholder="Enter Username" name="uname" id="uname" required>
 
     <label><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="psw" required>
+    <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
         
     <button type="submit">Login</button>
     <input type="checkbox" checked="checked"> Remember me
@@ -87,3 +96,42 @@ span.psw {
 
 </body>
 </html>
+
+"""  
+
+
+class Username(ndb.Model):
+     usrname = ndb.StringProperty(indexed=True)
+     descriptions = ndb.TextProperty(indexed=True)
+     when = ndb.DateTimeProperty(auto_now_add=True)
+	 
+	 
+	 
+class MyHandler(webapp2.RequestHandler):
+    def get(self):
+        self.response.out.write(html)
+		
+		
+		
+		
+class MainHandler(webapp2.RequestHandler):
+   def post(self):
+     username = self.request.get('uname')
+     description = self.request.get('description')
+     urs = Username()
+     urs.usrname=username
+     urs.descriptions=description
+     products.put()
+     self.response.out.write('Details enetered into the datastore are')
+
+class MainHandlers(webapp2.RequestHandler):
+     def post(self):
+        username = self.request.get('uname')
+        urs = Product.query()
+        searchquery = urs.filter(Username.usrname==username)
+        for i in searchquery:
+            self.response.out.write('<b>The product name is %s</b>' % i.usrname)
+	 
+app = webapp2.WSGIApplication([('/', MyHandler),('/confirm', MainHandler),('/search', MainHandlers)], 
+ debug=True)
+© 2017 GitHub, Inc.

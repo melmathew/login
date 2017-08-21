@@ -17,6 +17,6 @@ handlers:
 
 # [START libraries]
 libraries:
-- name: webapp
+- name: webapp2
   version: "2.5.2"
 # [END libraries]
